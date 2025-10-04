@@ -71,6 +71,13 @@ func (ac *AuthController) Login(c *gin.Context) {
 	})
 }
 
+// UpdateProfileRequest 更新用户信息请求
+type UpdateProfileRequest struct {
+	Email    string `json:"email" binding:"omitempty,email"`
+	FullName string `json:"full_name"`
+	Password string `json:"password" binding:"omitempty,min=6"`
+}
+
 // GetCurrentUser 获取当前登录用户信息
 func (ac *AuthController) GetCurrentUser(c *gin.Context) {
 	userID, exists := c.Get("user_id")
@@ -83,6 +90,49 @@ func (ac *AuthController) GetCurrentUser(c *gin.Context) {
 	user, err := userService.GetUserByID(userID.(uint))
 	if err != nil {
 		utils.ErrorResponse(c, http.StatusNotFound, err.Error())
+		return
+	}
+
+	utils.SuccessResponse(c, user)
+}
+
+// UpdateCurrentUser 更新当前登录用户信息
+func (ac *AuthController) UpdateCurrentUser(c *gin.Context) {
+	userID, exists := c.Get("user_id")
+	if !exists {
+		utils.ErrorResponse(c, http.StatusUnauthorized, "User not authenticated")
+		return
+	}
+
+	var req UpdateProfileRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		utils.ErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	userService := services.NewUserService()
+	user, err := userService.GetUserByID(userID.(uint))
+	if err != nil {
+		utils.ErrorResponse(c, http.StatusNotFound, err.Error())
+		return
+	}
+
+	// 更新用户信息
+	if req.Email != "" {
+		user.Email = req.Email
+	}
+	if req.FullName != "" {
+		user.FullName = req.FullName
+	}
+	if req.Password != "" {
+		if err := user.SetPassword(req.Password); err != nil {
+			utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to update password")
+			return
+		}
+	}
+
+	if err := userService.UpdateUser(user); err != nil {
+		utils.ErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 

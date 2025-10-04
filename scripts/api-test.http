@@ -1,0 +1,94 @@
+### API 测试脚本
+### 使用 VS Code 的 REST Client 插件或 IntelliJ IDEA 的 HTTP Client 运行
+### 或使用 curl 命令行工具
+
+@baseUrl = http://localhost:8080/api/v1
+@token =
+
+### 1. 健康检查
+GET {{baseUrl}}/health
+
+### 2. 用户注册
+# @name register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "password123",
+  "full_name": "Test User"
+}
+
+### 3. 用户登录
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "password123"
+}
+
+### 4. 获取当前用户信息（需要先登录获取 token）
+GET {{baseUrl}}/me
+Authorization: Bearer {{token}}
+
+### 5. 更新当前用户信息
+PUT {{baseUrl}}/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "full_name": "Updated Test User",
+  "email": "updated@example.com"
+}
+
+### 6. 更新密码
+PUT {{baseUrl}}/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "password": "newpassword123"
+}
+
+###############################################
+### 错误测试用例
+###############################################
+
+### 注册 - 无效的邮箱格式
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser2",
+  "email": "invalid-email",
+  "password": "password123"
+}
+
+### 注册 - 密码太短
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "email": "test3@example.com",
+  "password": "123"
+}
+
+### 登录 - 错误的密码
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "wrongpassword"
+}
+
+### 未授权访问（无 token）
+GET {{baseUrl}}/me
+
+### 无效的 token
+GET {{baseUrl}}/me
+Authorization: Bearer invalid.token.here

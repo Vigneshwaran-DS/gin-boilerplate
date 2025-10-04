@@ -38,16 +38,7 @@ func SetupRouter() *gin.Engine {
 		{
 			// 当前用户信息
 			authenticated.GET("/me", authController.GetCurrentUser)
-
-			// 用户管理路由（需要认证）
-			userController := controllers.NewUserController()
-			userRoutes := authenticated.Group("/users")
-			{
-				userRoutes.GET("", userController.GetAllUsers)
-				userRoutes.GET("/:id", userController.GetUser)
-				userRoutes.PUT("/:id", userController.UpdateUser)
-				userRoutes.DELETE("/:id", userController.DeleteUser)
-			}
+			authenticated.PUT("/me", authController.UpdateCurrentUser)
 		}
 	}
 
