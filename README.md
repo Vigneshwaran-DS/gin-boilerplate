@@ -1,93 +1,94 @@
 # Gin Boilerplate
 
-一个基于 Gin + GORM 的 Go Web 应用脚手架，采用最佳实践进行代码分层，开箱即用。
+English | [简体中文](./README_CN.md)
 
-## ✨ 特性
+A production-ready Go web application boilerplate built with Gin + GORM, featuring best practices and clean architecture.
 
-- 🚀 **完整的项目结构** - 清晰的代码分层（Controller、Service、Model、Router）
-- 🔐 **JWT 认证** - 完整的用户认证和授权体系
-- ⚙️ **多环境配置** - 支持开发、生产等多环境配置（基于 Viper）
-- 🗄️ **数据库 ORM** - 使用 GORM，支持自动迁移
-- 🔒 **密码加密** - 使用 bcrypt 加密用户密码
-- 📝 **日志中间件** - 请求日志记录
-- 🌐 **CORS 支持** - 跨域资源共享中间件
-- 📦 **统一响应格式** - 标准化 API 响应结构
-- 🔄 **RESTful API** - 符合 REST 规范的 API 设计
+## ✨ Features
 
-## 📁 项目结构
+- 🚀 **Complete Project Structure** - Clean layered architecture (Controller, Service, Model, Router)
+- 🔐 **JWT Authentication** - Complete user authentication system
+- ⚙️ **Multi-Environment Config** - Support for development, production, and more (Viper-based)
+- 🗄️ **Database ORM** - GORM with auto-migration support
+- 🔒 **Password Encryption** - Bcrypt password hashing
+- 📝 **Logging Middleware** - Request logging
+- 🌐 **CORS Support** - Cross-Origin Resource Sharing middleware
+- 📦 **Unified Response Format** - Standardized API response structure
+- 🎨 **Startup Banner** - Spring Boot-style startup banner
+- 🧪 **API Test Scripts** - Multiple testing script options
+
+## 📁 Project Structure
 
 ```
 gin-boilerplate/
-├── config/                 # 配置文件
-│   ├── config.go          # 配置加载逻辑
-│   ├── default.yaml       # 默认配置
-│   ├── development.yaml   # 开发环境配置
-│   └── production.yaml    # 生产环境配置
-├── controllers/           # 控制器层
-│   ├── auth_controller.go
-│   └── user_controller.go
-├── database/              # 数据库连接
+├── config/                 # Configuration files
+│   ├── banner.txt         # Startup banner
+│   ├── config.go          # Configuration loading logic
+│   ├── default.yaml       # Default configuration
+│   ├── development.yaml   # Development environment config
+│   └── production.yaml    # Production environment config
+├── controllers/           # Controller layer
+│   ├── auth_controller.go # Authentication controller
+│   └── user_controller.go # User controller
+├── database/              # Database connection
 │   └── database.go
-├── middleware/            # 中间件
-│   ├── auth.go           # JWT 认证中间件
-│   ├── cors.go           # CORS 中间件
-│   └── logger.go         # 日志中间件
-├── models/                # 数据模型层
-│   ├── base.go           # 基础模型
-│   └── user.go           # 用户模型
-├── router/                # 路由层
+├── middleware/            # Middlewares
+│   ├── auth.go           # JWT authentication middleware
+│   ├── cors.go           # CORS middleware
+│   └── logger.go         # Logging middleware
+├── models/                # Data models
+│   ├── base.go           # Base model
+│   └── user.go           # User model
+├── router/                # Router layer
 │   └── router.go
-├── scripts/               # 脚本文件
-│   └── init.sql          # 数据库初始化脚本
-├── services/              # 业务逻辑层
-│   ├── auth_service.go
-│   └── user_service.go
-├── utils/                 # 工具类
-│   ├── jwt.go            # JWT 工具
-│   └── response.go       # 响应工具
+├── scripts/               # Scripts
+│   ├── api-test.http     # HTTP test file
+│   ├── api-test.sh       # Bash test script
+│   └── init.sql          # Database initialization script
+├── services/              # Business logic layer
+│   ├── auth_service.go   # Authentication service
+│   └── user_service.go   # User service
+├── utils/                 # Utilities
+│   ├── banner.go         # Banner utility
+│   ├── jwt.go            # JWT utility
+│   └── response.go       # Response utility
 ├── .gitignore
 ├── go.mod
-├── main.go               # 程序入口
+├── main.go               # Application entry point
 └── README.md
 ```
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
-### 1. 环境要求
+### 1. Requirements
 
 - Go 1.19+
 - MySQL 5.7+
 
-### 2. 克隆项目
+### 2. Clone the Project
 
 ```bash
 git clone <repository-url>
 cd gin-boilerplate
 ```
 
-### 3. 安装依赖
+### 3. Install Dependencies
 
 ```bash
 go mod tidy
 ```
 
-### 4. 配置数据库
+### 4. Database Setup
 
-#### 初始化数据库
+#### Initialize Database
 
 ```bash
 mysql -u root -p < scripts/init.sql
 ```
 
-#### 配置数据库连接
+#### Configure Database Connection
 
-复制并修改开发环境配置：
-
-```bash
-cp config/development.yaml.example config/development.yaml
-```
-
-编辑 `config/development.yaml`：
+Edit `config/development.yaml`:
 
 ```yaml
 database:
@@ -102,29 +103,29 @@ jwt:
   expire_time: 72
 ```
 
-### 5. 运行项目
+### 5. Run the Application
 
-#### 开发环境
+#### Development Environment
 
 ```bash
 go run main.go
-# 或指定环境
+# Or specify environment
 go run main.go -e development
 ```
 
-#### 生产环境
+#### Production Environment
 
 ```bash
 go run main.go -e production
 ```
 
-服务默认运行在 `http://localhost:8080`
+The service runs on `http://localhost:8080` by default.
 
-## 📚 API 文档
+## 📚 API Documentation
 
-### 认证相关
+### Authentication
 
-#### 用户注册
+#### User Registration
 
 ```http
 POST /api/v1/auth/register
@@ -133,15 +134,16 @@ Content-Type: application/json
 {
   "username": "testuser",
   "email": "test@example.com",
-  "password": "123456",
+  "password": "password123",
   "full_name": "Test User"
 }
 ```
 
-**响应：**
+**Response:**
 
 ```json
 {
+  "success": true,
   "code": 200,
   "message": "Success",
   "data": {
@@ -156,7 +158,7 @@ Content-Type: application/json
 }
 ```
 
-#### 用户登录
+#### User Login
 
 ```http
 POST /api/v1/auth/login
@@ -164,14 +166,15 @@ Content-Type: application/json
 
 {
   "username": "testuser",
-  "password": "123456"
+  "password": "password123"
 }
 ```
 
-**响应：**
+**Response:**
 
 ```json
 {
+  "success": true,
   "code": 200,
   "message": "Success",
   "data": {
@@ -186,61 +189,53 @@ Content-Type: application/json
 }
 ```
 
-### 用户相关（需要认证）
+### User Endpoints (Authentication Required)
 
-所有用户相关接口需要在 Header 中携带 Token：
+All user-related endpoints require a token in the header:
 
 ```http
 Authorization: Bearer {your_token}
 ```
 
-#### 获取当前用户信息
+#### Get Current User Info
 
 ```http
 GET /api/v1/me
 Authorization: Bearer {token}
 ```
 
-#### 获取用户列表
+#### Update Current User Info
 
 ```http
-GET /api/v1/users?page=1&page_size=10
-Authorization: Bearer {token}
-```
-
-#### 获取用户详情
-
-```http
-GET /api/v1/users/:id
-Authorization: Bearer {token}
-```
-
-#### 更新用户
-
-```http
-PUT /api/v1/users/:id
+PUT /api/v1/me
 Authorization: Bearer {token}
 Content-Type: application/json
 
 {
-  "full_name": "Updated Name"
+  "full_name": "Updated Name",
+  "email": "newemail@example.com"
 }
 ```
 
-#### 删除用户
+#### Update Password
 
 ```http
-DELETE /api/v1/users/:id
+PUT /api/v1/me
 Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "password": "newpassword123"
+}
 ```
 
-### 健康检查
+### Health Check
 
 ```http
 GET /api/v1/health
 ```
 
-**响应：**
+**Response:**
 
 ```json
 {
@@ -249,40 +244,72 @@ GET /api/v1/health
 }
 ```
 
-## ⚙️ 配置说明
+## 🧪 API Testing
 
-### 配置文件层级
+The project provides multiple API testing scripts:
 
-1. `config/default.yaml` - 基础配置（所有环境共享）
-2. `config/{env}.yaml` - 环境特定配置（会覆盖默认配置）
+### 1. HTTP File Testing (Recommended)
 
-### 配置项说明
+Use VS Code REST Client extension or IntelliJ IDEA HTTP Client:
 
-```yaml
-# 服务配置
-server:
-  port: "8080"              # 服务端口
-  mode: "debug"             # 运行模式: debug, release, test
-
-# 数据库配置
-database:
-  host: "localhost"         # 数据库地址
-  port: "3306"              # 数据库端口
-  user: "root"              # 数据库用户名
-  password: ""              # 数据库密码
-  dbname: "gin_boilerplate" # 数据库名
-
-# JWT 配置
-jwt:
-  secret: "your-secret-key" # JWT 密钥（生产环境务必修改）
-  expire_time: 24           # Token 有效期（小时）
+```bash
+# Open scripts/api-test.http file
+# Click "Send Request" to execute tests
 ```
 
-## 🔧 开发指南
+### 2. Bash Script Testing
 
-### 添加新的 API
+For Linux/Mac users:
 
-1. **创建模型** (`models/`)
+```bash
+chmod +x scripts/api-test.sh
+./scripts/api-test.sh
+```
+
+For Windows users (Git Bash):
+
+```bash
+bash scripts/api-test.sh
+```
+
+## ⚙️ Configuration
+
+### Configuration Hierarchy
+
+1. `config/default.yaml` - Base configuration (shared across all environments)
+2. `config/{env}.yaml` - Environment-specific configuration (overrides defaults)
+
+### Configuration Options
+
+```yaml
+# Server configuration
+server:
+  port: "8080"              # Server port
+  mode: "debug"             # Running mode: debug, release, test
+
+# Database configuration
+database:
+  host: "localhost"         # Database host
+  port: "3306"              # Database port
+  user: "root"              # Database username
+  password: ""              # Database password
+  dbname: "gin_boilerplate" # Database name
+
+# JWT configuration
+jwt:
+  secret: "your-secret-key" # JWT secret key (MUST change in production)
+  expire_time: 24           # Token validity period (hours)
+```
+
+### Custom Startup Banner
+
+Edit the `config/banner.txt` file to customize your startup banner.
+
+## 🔧 Development Guide
+
+### Adding New APIs
+
+1. **Create Model** (`models/`)
 
 ```go
 type Product struct {
@@ -292,7 +319,7 @@ type Product struct {
 }
 ```
 
-2. **创建服务** (`services/`)
+2. **Create Service** (`services/`)
 
 ```go
 type ProductService struct{}
@@ -302,7 +329,7 @@ func (s *ProductService) CreateProduct(product *models.Product) error {
 }
 ```
 
-3. **创建控制器** (`controllers/`)
+3. **Create Controller** (`controllers/`)
 
 ```go
 type ProductController struct {
@@ -310,11 +337,11 @@ type ProductController struct {
 }
 
 func (c *ProductController) CreateProduct(ctx *gin.Context) {
-    // 处理请求
+    // Handle request
 }
 ```
 
-4. **注册路由** (`router/router.go`)
+4. **Register Routes** (`router/router.go`)
 
 ```go
 productController := controllers.NewProductController()
@@ -325,60 +352,60 @@ productRoutes := authenticated.Group("/products")
 }
 ```
 
-### 使用中间件
+### Using Middleware
 
 ```go
-// 全局中间件
+// Global middleware
 r.Use(middleware.Logger())
 
-// 路由组中间件
+// Route group middleware
 authenticated := v1.Group("")
 authenticated.Use(middleware.JWTAuth())
 ```
 
-### 数据库迁移
+### Database Migration
 
-在 `main.go` 中添加新模型的自动迁移：
+Add auto-migration for new models in `main.go`:
 
 ```go
 database.GetDB().AutoMigrate(
     &models.User{},
-    &models.Product{}, // 新增模型
+    &models.Product{}, // New model
 )
 ```
 
-## 🛡️ 安全建议
+## 🛡️ Security Recommendations
 
-1. **修改 JWT Secret**：生产环境务必使用强密钥
-2. **HTTPS**：生产环境使用 HTTPS
-3. **数据库密码**：不要将生产环境配置文件提交到 Git
-4. **输入验证**：使用 Gin 的 binding 验证用户输入
-5. **限流**：根据需要添加 API 限流中间件
+1. **Change JWT Secret**: Use a strong secret key in production
+2. **HTTPS**: Use HTTPS in production environments
+3. **Database Password**: Don't commit production config files to Git
+4. **Input Validation**: Use Gin's binding for user input validation
+5. **Rate Limiting**: Add API rate limiting middleware as needed
 
-## 📦 依赖包
+## 📦 Dependencies
 
-- [Gin](https://github.com/gin-gonic/gin) - Web 框架
-- [GORM](https://gorm.io/) - ORM 库
-- [Viper](https://github.com/spf13/viper) - 配置管理
-- [JWT](https://github.com/golang-jwt/jwt) - JWT 认证
-- [bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt) - 密码加密
+- [Gin](https://github.com/gin-gonic/gin) - Web framework
+- [GORM](https://gorm.io/) - ORM library
+- [Viper](https://github.com/spf13/viper) - Configuration management
+- [JWT](https://github.com/golang-jwt/jwt) - JWT authentication
+- [bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt) - Password encryption
 
 ## 📝 TODO
 
-- [ ] 添加单元测试
-- [ ] 添加 API 文档（Swagger）
-- [ ] 添加 Docker 支持
-- [ ] 添加限流中间件
-- [ ] 添加缓存支持（Redis）
-- [ ] 添加日志文件输出
+- [ ] Add unit tests
+- [ ] Add API documentation (Swagger)
+- [ ] Add Docker support
+- [ ] Add rate limiting middleware
+- [ ] Add cache support (Redis)
+- [ ] Add file logging
 
 ## 📄 License
 
 MIT License
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Issues and Pull Requests are welcome!
 
 ---
 
