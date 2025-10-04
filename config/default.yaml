@@ -1,0 +1,16 @@
+# 默认配置 - 所有环境共享的基础配置
+
+server:
+  port: "8080"
+  mode: "debug"
+
+database:
+  host: "localhost"
+  port: "3306"
+  user: "root"
+  password: ""
+  dbname: "gin_boilerplate"
+
+jwt:
+  secret: "your-secret-key-change-this-in-production"
+  expire_time: 24  # Token 过期时间（小时）
