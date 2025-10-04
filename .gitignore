@@ -17,10 +17,6 @@ go.work
 # Dependency directories
 vendor/
 
-# Configuration files (ignore environment-specific configs)
-config/development.yaml
-config/production.yaml
-
 # IDE
 .idea/
 .vscode/

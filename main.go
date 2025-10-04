@@ -9,10 +9,14 @@ import (
 	"gin-boilerplate/database"
 	"gin-boilerplate/models"
 	"gin-boilerplate/router"
+	"gin-boilerplate/utils"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	// 打印启动 banner
+	utils.PrintBanner()
+
 	// 解析命令行参数
 	env := flag.String("e", "development", "运行环境 (development, production, test)")
 	flag.Parse()

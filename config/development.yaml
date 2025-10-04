@@ -1,0 +1,15 @@
+# 开发环境配置 - 会覆盖 default.yaml 中的相应配置
+
+server:
+  mode: "debug"
+
+database:
+  host: "localhost"
+  port: "3306"
+  user: "gin_boilerplate"
+  password: "gin_boilerplate"
+  dbname: "gin_boilerplate"
+
+jwt:
+  secret: "dev-secret-key-for-development"
+  expire_time: 72  # 开发环境 Token 有效期更长

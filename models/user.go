@@ -2,10 +2,10 @@ package models
 
 type User struct {
 	BaseModel
-	Username string `gorm:"uniqueIndex;not null" json:"username"`
-	Email    string `gorm:"uniqueIndex;not null" json:"email"`
-	Password string `gorm:"not null" json:"-"`
-	FullName string `json:"full_name"`
+	Username string `gorm:"type:varchar(50);uniqueIndex;not null" json:"username"`
+	Email    string `gorm:"type:varchar(100);uniqueIndex;not null" json:"email"`
+	Password string `gorm:"type:varchar(255);not null" json:"-"`
+	FullName string `gorm:"type:varchar(100)" json:"full_name"`
 }
 
 func (User) TableName() string {

@@ -1,0 +1,15 @@
+# 生产环境配置 - 会覆盖 default.yaml 中的相应配置
+
+server:
+  mode: "release"
+
+database:
+  host: "localhost"
+  port: "3306"
+  user: "gin_boilerplate"
+  password: "gin_boilerplate"
+  dbname: "gin_boilerplate"
+
+jwt:
+  secret: "change-this-to-a-strong-secret-key-in-production"
+  expire_time: 24
