@@ -60,33 +60,97 @@ gin-boilerplate/
 
 ## 🚀 Quick Start
 
-### 1. Requirements
+### Option 1: Docker Deployment (Recommended)
 
-- Go 1.19+
-- MySQL 5.7+
+#### Requirements
 
-### 2. Clone the Project
+- Docker
+- MySQL (external or separate container)
+
+#### Steps
+
+1. **Clone the project**
 
 ```bash
 git clone <repository-url>
 cd gin-boilerplate
 ```
 
-### 3. Install Dependencies
+2. **Configure production settings**
+
+Edit `config/production.yaml` to match your database configuration:
+
+```yaml
+database:
+  host: "your-mysql-host"
+  port: "3306"
+  user: "your-db-user"
+  password: "your-db-password"
+  dbname: "gin_boilerplate_prod"
+```
+
+3. **Build Docker image**
+
+```bash
+docker build -t gin-boilerplate:latest .
+```
+
+4. **Run container**
+
+```bash
+docker run -d \
+  --name gin-boilerplate \
+  -p 8080:8080 \
+  -v $(pwd)/config:/root/config \
+  gin-boilerplate:latest
+```
+
+5. **Check logs**
+
+```bash
+docker logs -f gin-boilerplate
+```
+
+6. **Stop container**
+
+```bash
+docker stop gin-boilerplate
+docker rm gin-boilerplate
+```
+
+The service runs on `http://localhost:8080` by default.
+
+### Option 2: Local Development
+
+#### Requirements
+
+- Go 1.19+
+- MySQL 5.7+
+
+#### Steps
+
+1. **Clone the Project**
+
+```bash
+git clone <repository-url>
+cd gin-boilerplate
+```
+
+2. **Install Dependencies**
 
 ```bash
 go mod tidy
 ```
 
-### 4. Database Setup
+3. **Database Setup**
 
-#### Initialize Database
+**Initialize Database**
 
 ```bash
 mysql -u root -p < scripts/init.sql
 ```
 
-#### Configure Database Connection
+**Configure Database Connection**
 
 Edit `config/development.yaml`:
 
@@ -103,9 +167,9 @@ jwt:
   expire_time: 72
 ```
 
-### 5. Run the Application
+4. **Run the Application**
 
-#### Development Environment
+**Development Environment**
 
 ```bash
 go run main.go
@@ -113,13 +177,62 @@ go run main.go
 go run main.go -e development
 ```
 
-#### Production Environment
+**Production Environment**
 
 ```bash
 go run main.go -e production
 ```
 
 The service runs on `http://localhost:8080` by default.
+
+## 🐳 Docker Deployment Details
+
+### Dockerfile Features
+
+- **Multi-stage build**: Minimizes final image size
+- **Alpine-based**: Lightweight and secure
+- **Production optimized**: CGO disabled for static binary
+
+### Using with Reverse Proxy
+
+This application is designed to run behind a reverse proxy (Nginx, Traefik, etc.). The reverse proxy should handle:
+
+- SSL/TLS termination
+- Load balancing
+- Rate limiting
+- Static file serving (if needed)
+
+Example Nginx configuration:
+
+```nginx
+upstream gin_backend {
+    server localhost:8080;
+}
+
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://gin_backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### Production Considerations
+
+Before deploying to production:
+
+1. Change the JWT secret in `config/production.yaml`
+2. Configure external MySQL database
+3. Set up proper logging and monitoring
+4. Configure firewall rules
+5. Use reverse proxy for SSL/TLS
+6. Set up automated backups for database
 
 ## 📚 API Documentation
 
@@ -394,7 +507,7 @@ database.GetDB().AutoMigrate(
 
 - [ ] Add unit tests
 - [ ] Add API documentation (Swagger)
-- [ ] Add Docker support
+- [x] Add Docker support
 - [ ] Add rate limiting middleware
 - [ ] Add cache support (Redis)
 - [ ] Add file logging

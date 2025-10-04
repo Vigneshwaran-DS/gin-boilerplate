@@ -60,33 +60,97 @@ gin-boilerplate/
 
 ## 🚀 快速开始
 
-### 1. 环境要求
+### 方式一：Docker 部署（推荐）
 
-- Go 1.19+
-- MySQL 5.7+
+#### 环境要求
 
-### 2. 克隆项目
+- Docker
+- MySQL（外部数据库或独立容器）
+
+#### 步骤
+
+1. **克隆项目**
 
 ```bash
 git clone <repository-url>
 cd gin-boilerplate
 ```
 
-### 3. 安装依赖
+2. **配置生产环境**
+
+编辑 `config/production.yaml` 以匹配你的数据库配置：
+
+```yaml
+database:
+  host: "your-mysql-host"
+  port: "3306"
+  user: "your-db-user"
+  password: "your-db-password"
+  dbname: "gin_boilerplate_prod"
+```
+
+3. **构建 Docker 镜像**
+
+```bash
+docker build -t gin-boilerplate:latest .
+```
+
+4. **运行容器**
+
+```bash
+docker run -d \
+  --name gin-boilerplate \
+  -p 8080:8080 \
+  -v $(pwd)/config:/root/config \
+  gin-boilerplate:latest
+```
+
+5. **查看日志**
+
+```bash
+docker logs -f gin-boilerplate
+```
+
+6. **停止容器**
+
+```bash
+docker stop gin-boilerplate
+docker rm gin-boilerplate
+```
+
+服务默认运行在 `http://localhost:8080`
+
+### 方式二：本地开发
+
+#### 环境要求
+
+- Go 1.19+
+- MySQL 5.7+
+
+#### 步骤
+
+1. **克隆项目**
+
+```bash
+git clone <repository-url>
+cd gin-boilerplate
+```
+
+2. **安装依赖**
 
 ```bash
 go mod tidy
 ```
 
-### 4. 配置数据库
+3. **配置数据库**
 
-#### 初始化数据库
+**初始化数据库**
 
 ```bash
 mysql -u root -p < scripts/init.sql
 ```
 
-#### 配置数据库连接
+**配置数据库连接**
 
 编辑 `config/development.yaml`：
 
@@ -103,9 +167,9 @@ jwt:
   expire_time: 72
 ```
 
-### 5. 运行项目
+4. **运行项目**
 
-#### 开发环境
+**开发环境**
 
 ```bash
 go run main.go
@@ -113,13 +177,62 @@ go run main.go
 go run main.go -e development
 ```
 
-#### 生产环境
+**生产环境**
 
 ```bash
 go run main.go -e production
 ```
 
 服务默认运行在 `http://localhost:8080`
+
+## 🐳 Docker 部署详解
+
+### Dockerfile 特性
+
+- **多阶段构建**：最小化最终镜像体积
+- **基于 Alpine**：轻量且安全
+- **生产优化**：禁用 CGO 以生成静态二进制文件
+
+### 配合反向代理使用
+
+本应用设计为运行在反向代理（Nginx、Traefik 等）之后。反向代理应处理：
+
+- SSL/TLS 终止
+- 负载均衡
+- 限流
+- 静态文件服务（如需要）
+
+Nginx 配置示例：
+
+```nginx
+upstream gin_backend {
+    server localhost:8080;
+}
+
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://gin_backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### 生产环境注意事项
+
+部署到生产环境前：
+
+1. 修改 `config/production.yaml` 中的 JWT 密钥
+2. 配置外部 MySQL 数据库
+3. 设置适当的日志和监控
+4. 配置防火墙规则
+5. 使用反向代理处理 SSL/TLS
+6. 为数据库设置自动备份
 
 ## 📚 API 文档
 
@@ -394,7 +507,7 @@ database.GetDB().AutoMigrate(
 
 - [ ] 添加单元测试
 - [ ] 添加 API 文档（Swagger）
-- [ ] 添加 Docker 支持
+- [x] 添加 Docker 支持
 - [ ] 添加限流中间件
 - [ ] 添加缓存支持（Redis）
 - [ ] 添加日志文件输出
