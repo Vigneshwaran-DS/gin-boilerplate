@@ -6,7 +6,7 @@ import (
 
 	"gin-boilerplate/plugins"
 	"gin-boilerplate/plugins/guest/controllers"
-	guestmiddleware "gin-boilerplate/plugins/guest/middleware"
+	"gin-boilerplate/plugins/guest/middleware"
 	"gin-boilerplate/plugins/guest/models"
 	"gin-boilerplate/plugins/guest/services"
 
@@ -51,7 +51,7 @@ func (p *GuestPlugin) Register(group *gin.RouterGroup) error {
 
 	// Protected routes (require guest JWT authentication)
 	authenticated := group.Group("")
-	authenticated.Use(guestmiddleware.GuestAuth())
+	authenticated.Use(middleware.GuestAuth())
 	{
 		authenticated.GET("/info", controller.GetCurrentGuest)
 	}
