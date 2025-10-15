@@ -9,14 +9,14 @@ import (
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 
-	// 使用中间件
+	// Use middleware
 	r.Use(middleware.CORS())
 	r.Use(middleware.Logger())
 
-	// API 版本分组
+	// API version grouping
 	v1 := r.Group("/api/v1")
 	{
-		// 健康检查
+		// Health check
 		v1.GET("/health", func(c *gin.Context) {
 			c.JSON(200, gin.H{
 				"status":  "ok",
@@ -24,7 +24,7 @@ func SetupRouter() *gin.Engine {
 			})
 		})
 
-		// 认证路由（无需鉴权）
+		// Authentication routes (no auth required)
 		authController := controllers.NewAuthController()
 		authRoutes := v1.Group("/auth")
 		{
@@ -32,11 +32,11 @@ func SetupRouter() *gin.Engine {
 			authRoutes.POST("/login", authController.Login)
 		}
 
-		// 需要认证的路由
+		// Routes requiring authentication
 		authenticated := v1.Group("")
 		authenticated.Use(middleware.JWTAuth())
 		{
-			// 当前用户信息
+			// Current user information
 			authenticated.GET("/me", authController.GetCurrentUser)
 			authenticated.PUT("/me", authController.UpdateCurrentUser)
 		}

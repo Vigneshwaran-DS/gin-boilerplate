@@ -1,4 +1,4 @@
-# 生产环境配置 - 会覆盖 default.yaml 中的相应配置
+# Production environment configuration - overrides corresponding config in default.yaml
 
 server:
   mode: "release"

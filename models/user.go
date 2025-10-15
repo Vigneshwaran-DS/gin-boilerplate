@@ -14,7 +14,7 @@ func (User) TableName() string {
 	return "users"
 }
 
-// SetPassword 设置用户密码（加密）
+// SetPassword set user password (encrypted)
 func (u *User) SetPassword(password string) error {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {

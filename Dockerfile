@@ -1,37 +1,37 @@
-# 构建阶段
+# Build stage
 FROM golang:alpine AS builder
 
-# 设置工作目录
+# Set working directory
 WORKDIR /app
 
-# 安装必要的构建工具
+# Install necessary build tools
 RUN apk add --no-cache git
 
-# 复制 go mod 文件
+# Copy go mod files
 COPY go.mod go.sum ./
 
-# 下载依赖
+# Download dependencies
 RUN go mod download
 
-# 复制源代码
+# Copy source code
 COPY . .
 
-# 编译应用
+# Compile application
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# 运行阶段
+# Runtime stage
 FROM alpine:latest
 
 WORKDIR /root/
 
-# 从构建阶段复制二进制文件
+# Copy binary from build stage
 COPY --from=builder /app/main .
 
-# 复制配置文件
+# Copy configuration files
 COPY --from=builder /app/config ./config
 
-# 暴露端口
+# Expose port
 EXPOSE 8080
 
-# 运行应用
+# Run application
 CMD ["./main", "-e", "production"]

@@ -18,7 +18,7 @@ func NewAuthController() *AuthController {
 	}
 }
 
-// RegisterRequest 注册请求
+// RegisterRequest registration request
 type RegisterRequest struct {
 	Username string `json:"username" binding:"required,min=3,max=50"`
 	Email    string `json:"email" binding:"required,email"`
@@ -26,13 +26,13 @@ type RegisterRequest struct {
 	FullName string `json:"full_name"`
 }
 
-// LoginRequest 登录请求
+// LoginRequest login request
 type LoginRequest struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
-// Register 用户注册
+// Register user registration
 func (ac *AuthController) Register(c *gin.Context) {
 	var req RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -51,7 +51,7 @@ func (ac *AuthController) Register(c *gin.Context) {
 	})
 }
 
-// Login 用户登录
+// Login user login
 func (ac *AuthController) Login(c *gin.Context) {
 	var req LoginRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -71,14 +71,14 @@ func (ac *AuthController) Login(c *gin.Context) {
 	})
 }
 
-// UpdateProfileRequest 更新用户信息请求
+// UpdateProfileRequest update user profile request
 type UpdateProfileRequest struct {
 	Email    string `json:"email" binding:"omitempty,email"`
 	FullName string `json:"full_name"`
 	Password string `json:"password" binding:"omitempty,min=6"`
 }
 
-// GetCurrentUser 获取当前登录用户信息
+// GetCurrentUser get current logged-in user information
 func (ac *AuthController) GetCurrentUser(c *gin.Context) {
 	userID, exists := c.Get("user_id")
 	if !exists {
@@ -96,7 +96,7 @@ func (ac *AuthController) GetCurrentUser(c *gin.Context) {
 	utils.SuccessResponse(c, user)
 }
 
-// UpdateCurrentUser 更新当前登录用户信息
+// UpdateCurrentUser update current logged-in user information
 func (ac *AuthController) UpdateCurrentUser(c *gin.Context) {
 	userID, exists := c.Get("user_id")
 	if !exists {
@@ -117,7 +117,7 @@ func (ac *AuthController) UpdateCurrentUser(c *gin.Context) {
 		return
 	}
 
-	// 更新用户信息
+	// Update user information
 	if req.Email != "" {
 		user.Email = req.Email
 	}

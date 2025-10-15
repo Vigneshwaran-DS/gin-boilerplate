@@ -16,7 +16,7 @@ func NewUserService() *UserService {
 }
 
 func (s *UserService) CreateUser(user *models.User) error {
-	// 密码加密
+	// Encrypt password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
@@ -56,10 +56,10 @@ func (s *UserService) GetAllUsers(page, pageSize int) ([]models.User, int64, err
 
 	db := database.GetDB().Model(&models.User{})
 
-	// 获取总数
+	// Get total count
 	db.Count(&total)
 
-	// 分页查询
+	// Paginated query
 	offset := (page - 1) * pageSize
 	err := db.Offset(offset).Limit(pageSize).Find(&users).Error
 

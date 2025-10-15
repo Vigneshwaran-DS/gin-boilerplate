@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// JWTAuth JWT 认证中间件
+// JWTAuth JWT authentication middleware
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// 从 Header 中获取 Authorization
+		// Get Authorization from Header
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{
@@ -22,7 +22,7 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 
-		// 验证 Bearer Token 格式
+		// Verify Bearer Token format
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
 			c.JSON(http.StatusUnauthorized, gin.H{
@@ -33,7 +33,7 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 
-		// 解析 Token
+		// Parse Token
 		claims, err := utils.ParseToken(parts[1])
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{
@@ -44,7 +44,7 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 
-		// 将用户信息保存到上下文
+		// Save user information to context
 		c.Set("user_id", claims.UserID)
 		c.Set("username", claims.Username)
 

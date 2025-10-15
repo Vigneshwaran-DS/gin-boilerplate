@@ -18,22 +18,22 @@ func NewAuthService() *AuthService {
 	}
 }
 
-// Register 用户注册
+// Register user registration
 func (s *AuthService) Register(username, email, password, fullName string) (*models.User, error) {
-	// 检查用户名是否已存在
+	// Check if username already exists
 	existUser, _ := s.userService.GetUserByUsername(username)
 	if existUser != nil {
 		return nil, errors.New("username already exists")
 	}
 
-	// 检查邮箱是否已存在
+	// Check if email already exists
 	var user models.User
 	err := database.GetDB().Where("email = ?", email).First(&user).Error
 	if err == nil {
 		return nil, errors.New("email already exists")
 	}
 
-	// 创建用户
+	// Create user
 	newUser := &models.User{
 		Username: username,
 		Email:    email,
@@ -48,20 +48,20 @@ func (s *AuthService) Register(username, email, password, fullName string) (*mod
 	return newUser, nil
 }
 
-// Login 用户登录
+// Login user login
 func (s *AuthService) Login(username, password string) (string, *models.User, error) {
-	// 查找用户
+	// Find user
 	user, err := s.userService.GetUserByUsername(username)
 	if err != nil {
 		return "", nil, errors.New("invalid username or password")
 	}
 
-	// 验证密码
+	// Verify password
 	if !s.userService.VerifyPassword(user, password) {
 		return "", nil, errors.New("invalid username or password")
 	}
 
-	// 生成 Token
+	// Generate token
 	token, err := utils.GenerateToken(user.ID, user.Username)
 	if err != nil {
 		return "", nil, err

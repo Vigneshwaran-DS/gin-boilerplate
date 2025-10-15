@@ -16,6 +16,7 @@ A production-ready Go web application boilerplate built with Gin + GORM, featuri
 - 📦 **Unified Response Format** - Standardized API response structure
 - 🎨 **Startup Banner** - Spring Boot-style startup banner
 - 🧪 **API Test Scripts** - Multiple testing script options
+- 🧩 **Plugin System** - Modular plugin architecture for extensibility
 
 ## 📁 Project Structure
 
@@ -39,6 +40,15 @@ gin-boilerplate/
 ├── models/                # Data models
 │   ├── base.go           # Base model
 │   └── user.go           # User model
+├── plugins/               # Plugin system and implementations
+│   ├── environment.go    # Plugin runtime environment
+│   ├── plugin.go         # Plugin interface definition
+│   ├── registry.go       # Plugin registry
+│   └── guest/            # Guest plugin example
+│       ├── controllers/
+│       ├── models/
+│       ├── services/
+│       └── guest_plugin.go
 ├── router/                # Router layer
 │   └── router.go
 ├── scripts/               # Scripts
@@ -486,6 +496,148 @@ database.GetDB().AutoMigrate(
     &models.Product{}, // New model
 )
 ```
+
+## 🧩 Plugin System
+
+The plugin system allows you to extend the application with modular features without modifying the core codebase.
+
+### Plugin Architecture
+
+The plugin system provides:
+
+- **Plugin Interface**: Define plugin contract with `Register()` and `RouterPath()` methods
+- **Plugin Registry**: Auto-register plugins at startup using `init()` functions
+- **Plugin Environment**: Share dependencies (database, etc.) with plugins
+- **Isolated Routes**: Each plugin gets its own route group under `/api/v1/plugin/{plugin-name}`
+
+### Creating a Plugin
+
+**1. Create Plugin Structure**
+
+```
+plugins/
+└── myplugin/
+    ├── controllers/
+    │   └── myplugin_controller.go
+    ├── models/
+    │   └── myplugin_model.go
+    ├── services/
+    │   └── myplugin_service.go
+    └── myplugin_plugin.go
+```
+
+**2. Define Plugin Model** (`models/myplugin_model.go`)
+
+```go
+package models
+
+import "gin-boilerplate/models"
+
+type MyPluginData struct {
+    models.BaseModel
+    Name string `gorm:"not null" json:"name"`
+}
+```
+
+**3. Create Plugin Controller** (`controllers/myplugin_controller.go`)
+
+```go
+package controllers
+
+import "github.com/gin-gonic/gin"
+
+type MyPluginController struct{}
+
+func NewMyPluginController() *MyPluginController {
+    return &MyPluginController{}
+}
+
+func (c *MyPluginController) Hello(ctx *gin.Context) {
+    ctx.JSON(200, gin.H{"message": "Hello from MyPlugin"})
+}
+```
+
+**4. Implement Plugin Interface** (`myplugin_plugin.go`)
+
+```go
+package myplugin
+
+import (
+    "gin-boilerplate/plugins"
+    "gin-boilerplate/plugins/myplugin/controllers"
+    "gin-boilerplate/plugins/myplugin/models"
+    "github.com/gin-gonic/gin"
+    "gorm.io/gorm"
+)
+
+// Auto-register plugin on import
+func init() {
+    plugins.Register("myplugin", NewMyPlugin)
+}
+
+type MyPlugin struct {
+    db *gorm.DB
+}
+
+func NewMyPlugin(env *plugins.PluginEnvironment) plugins.Plugin {
+    return &MyPlugin{db: env.DB}
+}
+
+func (p *MyPlugin) RouterPath() string {
+    return "/myplugin"
+}
+
+func (p *MyPlugin) Register(group *gin.RouterGroup) error {
+    // Auto-migrate plugin tables
+    if err := p.db.AutoMigrate(&models.MyPluginData{}); err != nil {
+        return err
+    }
+
+    // Register routes
+    controller := controllers.NewMyPluginController()
+    group.GET("/hello", controller.Hello)
+
+    return nil
+}
+```
+
+**5. Import Plugin in main.go**
+
+```go
+import (
+    _ "gin-boilerplate/plugins/myplugin" // Auto-register plugin
+)
+```
+
+### Plugin Routes
+
+All plugins are automatically mounted under `/api/v1/plugin/`:
+
+- Guest plugin: `http://localhost:8080/api/v1/plugin/guest/*`
+- Your plugin: `http://localhost:8080/api/v1/plugin/myplugin/*`
+
+### Example: Guest Plugin
+
+The project includes a guest plugin example at `plugins/guest/` that demonstrates:
+
+- Plugin registration and initialization
+- Route setup under `/api/v1/plugin/guest`
+- Database model auto-migration
+- Controller implementation
+
+**Test the Guest Plugin:**
+
+```bash
+curl -X POST http://localhost:8080/api/v1/plugin/guest/login
+```
+
+### Plugin Best Practices
+
+1. **Self-contained**: Keep plugin code isolated in its own directory
+2. **Database migrations**: Use `AutoMigrate()` in plugin's `Register()` method
+3. **Naming convention**: Use lowercase for plugin names and route paths
+4. **Error handling**: Return errors from `Register()` for proper initialization
+5. **Dependencies**: Access shared resources through `PluginEnvironment`
 
 ## 🛡️ Security Recommendations
 

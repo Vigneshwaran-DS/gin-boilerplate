@@ -19,7 +19,7 @@ type ServerConfig struct {
 
 type JWTConfig struct {
 	Secret     string `mapstructure:"secret"`
-	ExpireTime int    `mapstructure:"expire_time"` // 单位：小时
+	ExpireTime int    `mapstructure:"expire_time"` // Unit: hours
 }
 
 type DatabaseConfig struct {
@@ -33,12 +33,12 @@ type DatabaseConfig struct {
 var AppConfig *Config
 
 func LoadConfig(env string) {
-	// 如果未指定环境，默认为 development
+	// If environment not specified, default to development
 	if env == "" {
 		env = "development"
 	}
 
-	// 加载默认配置
+	// Load default configuration
 	defaultViper := viper.New()
 	defaultViper.SetConfigName("default")
 	defaultViper.SetConfigType("yaml")
@@ -50,7 +50,7 @@ func LoadConfig(env string) {
 	}
 	log.Printf("Loaded default configuration from: %s", defaultViper.ConfigFileUsed())
 
-	// 加载环境特定配置
+	// Load environment-specific configuration
 	envViper := viper.New()
 	envViper.SetConfigName(env)
 	envViper.SetConfigType("yaml")
@@ -63,14 +63,14 @@ func LoadConfig(env string) {
 		log.Printf("Loaded %s configuration from: %s", env, envViper.ConfigFileUsed())
 	}
 
-	// 合并配置：默认配置 + 环境配置
-	// 先解析默认配置
+	// Merge configurations: default config + environment config
+	// Parse default configuration first
 	AppConfig = &Config{}
 	if err := defaultViper.Unmarshal(AppConfig); err != nil {
 		log.Fatalf("Failed to unmarshal default config: %v", err)
 	}
 
-	// 合并环境配置（环境配置会覆盖默认配置）
+	// Merge environment configuration (environment config overrides default config)
 	if err := envViper.Unmarshal(AppConfig); err != nil {
 		log.Printf("Failed to unmarshal %s config: %v", env, err)
 	}

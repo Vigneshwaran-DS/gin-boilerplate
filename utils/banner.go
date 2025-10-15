@@ -6,18 +6,18 @@ import (
 	"path/filepath"
 )
 
-// PrintBanner 打印启动 banner
+// PrintBanner prints startup banner
 func PrintBanner() {
 	bannerPath := filepath.Join("config", "banner.txt")
 
-	// 读取 banner 文件
+	// Read banner file
 	content, err := os.ReadFile(bannerPath)
 	if err != nil {
-		// 如果文件不存在或读取失败，使用默认 banner
+		// If file doesn't exist or read fails, use default banner
 		fmt.Println("=== Gin Boilerplate ===")
 		return
 	}
 
-	// 打印 banner
+	// Print banner
 	fmt.Println(string(content))
 }

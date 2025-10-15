@@ -20,7 +20,7 @@ func NewUserController() *UserController {
 	}
 }
 
-// CreateUser 创建用户
+// CreateUser create user
 func (uc *UserController) CreateUser(c *gin.Context) {
 	var user models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -36,7 +36,7 @@ func (uc *UserController) CreateUser(c *gin.Context) {
 	utils.SuccessResponse(c, user)
 }
 
-// GetUser 获取用户详情
+// GetUser get user details
 func (uc *UserController) GetUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -53,7 +53,7 @@ func (uc *UserController) GetUser(c *gin.Context) {
 	utils.SuccessResponse(c, user)
 }
 
-// GetAllUsers 获取用户列表
+// GetAllUsers get user list
 func (uc *UserController) GetAllUsers(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	pageSize, _ := strconv.Atoi(c.DefaultQuery("page_size", "10"))
@@ -74,7 +74,7 @@ func (uc *UserController) GetAllUsers(c *gin.Context) {
 	utils.SuccessResponseWithPagination(c, users, page, pageSize, int(total))
 }
 
-// UpdateUser 更新用户
+// UpdateUser update user
 func (uc *UserController) UpdateUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {
@@ -97,7 +97,7 @@ func (uc *UserController) UpdateUser(c *gin.Context) {
 	utils.SuccessResponse(c, user)
 }
 
-// DeleteUser 删除用户
+// DeleteUser delete user
 func (uc *UserController) DeleteUser(c *gin.Context) {
 	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
 	if err != nil {

@@ -1,4 +1,4 @@
-# 默认配置 - 所有环境共享的基础配置
+# Default configuration - base configuration shared by all environments
 
 server:
   port: "8080"
@@ -13,4 +13,4 @@ database:
 
 jwt:
   secret: "your-secret-key-change-this-in-production"
-  expire_time: 24  # Token 过期时间（小时）
+  expire_time: 24  # Token expiration time (hours)

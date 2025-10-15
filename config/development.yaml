@@ -1,4 +1,4 @@
-# 开发环境配置 - 会覆盖 default.yaml 中的相应配置
+# Development environment configuration - overrides corresponding config in default.yaml
 
 server:
   mode: "debug"
@@ -12,4 +12,4 @@ database:
 
 jwt:
   secret: "dev-secret-key-for-development"
-  expire_time: 72  # 开发环境 Token 有效期更长
+  expire_time: 72  # Development environment has longer token validity

@@ -16,6 +16,7 @@
 - 📦 **统一响应格式** - 标准化 API 响应结构
 - 🎨 **启动 Banner** - 类似 Spring Boot 的启动 banner
 - 🧪 **API 测试脚本** - 提供多种测试脚本
+- 🧩 **插件系统** - 模块化插件架构，支持功能扩展
 
 ## 📁 项目结构
 
@@ -39,6 +40,15 @@ gin-boilerplate/
 ├── models/                # 数据模型层
 │   ├── base.go           # 基础模型
 │   └── user.go           # 用户模型
+├── plugins/               # 插件系统和实现
+│   ├── environment.go    # 插件运行环境
+│   ├── plugin.go         # 插件接口定义
+│   ├── registry.go       # 插件注册表
+│   └── guest/            # 游客插件示例
+│       ├── controllers/
+│       ├── models/
+│       ├── services/
+│       └── guest_plugin.go
 ├── router/                # 路由层
 │   └── router.go
 ├── scripts/               # 脚本文件
@@ -486,6 +496,148 @@ database.GetDB().AutoMigrate(
     &models.Product{}, // 新增模型
 )
 ```
+
+## 🧩 插件系统
+
+插件系统允许你在不修改核心代码的情况下，通过模块化的方式扩展应用功能。
+
+### 插件架构
+
+插件系统提供：
+
+- **插件接口**：通过 `Register()` 和 `RouterPath()` 方法定义插件契约
+- **插件注册表**：使用 `init()` 函数在启动时自动注册插件
+- **插件环境**：与插件共享依赖（数据库等）
+- **独立路由**：每个插件在 `/api/v1/plugin/{插件名}` 下拥有独立的路由组
+
+### 创建插件
+
+**1. 创建插件结构**
+
+```
+plugins/
+└── myplugin/
+    ├── controllers/
+    │   └── myplugin_controller.go
+    ├── models/
+    │   └── myplugin_model.go
+    ├── services/
+    │   └── myplugin_service.go
+    └── myplugin_plugin.go
+```
+
+**2. 定义插件模型** (`models/myplugin_model.go`)
+
+```go
+package models
+
+import "gin-boilerplate/models"
+
+type MyPluginData struct {
+    models.BaseModel
+    Name string `gorm:"not null" json:"name"`
+}
+```
+
+**3. 创建插件控制器** (`controllers/myplugin_controller.go`)
+
+```go
+package controllers
+
+import "github.com/gin-gonic/gin"
+
+type MyPluginController struct{}
+
+func NewMyPluginController() *MyPluginController {
+    return &MyPluginController{}
+}
+
+func (c *MyPluginController) Hello(ctx *gin.Context) {
+    ctx.JSON(200, gin.H{"message": "Hello from MyPlugin"})
+}
+```
+
+**4. 实现插件接口** (`myplugin_plugin.go`)
+
+```go
+package myplugin
+
+import (
+    "gin-boilerplate/plugins"
+    "gin-boilerplate/plugins/myplugin/controllers"
+    "gin-boilerplate/plugins/myplugin/models"
+    "github.com/gin-gonic/gin"
+    "gorm.io/gorm"
+)
+
+// 导入时自动注册插件
+func init() {
+    plugins.Register("myplugin", NewMyPlugin)
+}
+
+type MyPlugin struct {
+    db *gorm.DB
+}
+
+func NewMyPlugin(env *plugins.PluginEnvironment) plugins.Plugin {
+    return &MyPlugin{db: env.DB}
+}
+
+func (p *MyPlugin) RouterPath() string {
+    return "/myplugin"
+}
+
+func (p *MyPlugin) Register(group *gin.RouterGroup) error {
+    // 自动迁移插件数据表
+    if err := p.db.AutoMigrate(&models.MyPluginData{}); err != nil {
+        return err
+    }
+
+    // 注册路由
+    controller := controllers.NewMyPluginController()
+    group.GET("/hello", controller.Hello)
+
+    return nil
+}
+```
+
+**5. 在 main.go 中导入插件**
+
+```go
+import (
+    _ "gin-boilerplate/plugins/myplugin" // 自动注册插件
+)
+```
+
+### 插件路由
+
+所有插件自动挂载在 `/api/v1/plugin/` 下：
+
+- Guest 插件: `http://localhost:8080/api/v1/plugin/guest/*`
+- 你的插件: `http://localhost:8080/api/v1/plugin/myplugin/*`
+
+### 示例：Guest 插件
+
+项目在 `plugins/guest/` 中包含了一个游客插件示例，演示了：
+
+- 插件注册和初始化
+- 在 `/api/v1/plugin/guest` 下设置路由
+- 数据库模型自动迁移
+- 控制器实现
+
+**测试 Guest 插件：**
+
+```bash
+curl -X POST http://localhost:8080/api/v1/plugin/guest/login
+```
+
+### 插件最佳实践
+
+1. **自包含**：将插件代码隔离在独立目录中
+2. **数据库迁移**：在插件的 `Register()` 方法中使用 `AutoMigrate()`
+3. **命名规范**：插件名称和路由路径使用小写
+4. **错误处理**：从 `Register()` 返回错误以确保正确初始化
+5. **依赖管理**：通过 `PluginEnvironment` 访问共享资源
 
 ## 🛡️ 安全建议
 
