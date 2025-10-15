@@ -7,8 +7,8 @@ server:
 database:
   host: "localhost"
   port: "3306"
-  user: "root"
-  password: ""
+  user: "gin_boilerplate"
+  password: "gin_boilerplate"
   dbname: "gin_boilerplate"
 
 jwt:
