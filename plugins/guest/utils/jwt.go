@@ -4,7 +4,8 @@ import (
 	"errors"
 	"time"
 
-	"gin-boilerplate/config"
+	"gin-boilerplate/plugins/guest/config"
+
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -18,7 +19,7 @@ type GuestClaims struct {
 
 // GenerateGuestToken generates JWT Token for guest users
 func GenerateGuestToken(guestID uint, guestUID string) (string, error) {
-	expireTime := time.Duration(config.AppConfig.JWT.ExpireTime) * time.Hour
+	expireTime := 72 * time.Hour // Guest tokens valid for 72 hours
 	claims := GuestClaims{
 		GuestID:  guestID,
 		GuestUID: guestUID,
@@ -31,13 +32,13 @@ func GenerateGuestToken(guestID uint, guestUID string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(config.AppConfig.JWT.Secret))
+	return token.SignedString([]byte(config.GuestJWTSecret))
 }
 
 // ParseGuestToken parses guest JWT Token
 func ParseGuestToken(tokenString string) (*GuestClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &GuestClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(config.AppConfig.JWT.Secret), nil
+		return []byte(config.GuestJWTSecret), nil
 	})
 
 	if err != nil {

@@ -98,10 +98,10 @@ func (s *GuestService) UpgradeToUser(guestUID string, userID uint) error {
 
 // generateGuestUID generates a unique guest UID
 func (s *GuestService) generateGuestUID() string {
-	timestamp := time.Now().UnixNano()
-	randomBytes := make([]byte, 16)
+	// Generate 12 random bytes (24 hex characters)
+	randomBytes := make([]byte, 12)
 	rand.Read(randomBytes)
-	return "guest_" + hex.EncodeToString(randomBytes)[:16] + "_" + hex.EncodeToString([]byte{byte(timestamp)})[:8]
+	return "guest_" + hex.EncodeToString(randomBytes)
 }
 
 // generateToken generates a secure random token
